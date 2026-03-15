@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Varun Pyarasani — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--nf-red:#E50914;--nf-red-dark:#B20710;
+--nf-dark:#0a0a0a;--nf-gray:#808080;--nf-light:#e5e5e5;
+--nf-white:#fff;--sg-pink:#ED1B76;--sg-teal:#00B4A0;
+--sg-yellow:#FFD93D;--card-bg:#1a1a1a;--card-border:#2a2a2a;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{background:var(--nf-dark);color:var(--nf-light);font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--nf-red);color:#fff}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--nf-dark)}
+::-webkit-scrollbar-thumb{background:var(--nf-red);border-radius:2px}
+
+/* SCROLL TRACKER */
+#scroll-tracker{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:997;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+#scroll-tracker .track-line{width:2px;height:clamp(180px,30vh,280px);background:rgba(255,255,255,0.06);border-radius:1px;position:relative;overflow:hidden}
+#scroll-tracker .track-fill{position:absolute;top:0;left:0;width:100%;height:0%;background:linear-gradient(180deg,var(--sg-teal),var(--sg-pink),var(--nf-red));border-radius:1px;transition:height 0.15s}
+#scroll-tracker .track-marker{position:absolute;left:50%;width:10px;height:10px;transform:translate(-50%,-50%);background:var(--sg-pink);border-radius:50%;box-shadow:0 0 12px rgba(237,27,118,0.7);transition:top 0.15s;top:0%}
+.sg-shapes{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:10px}
+.sg-shape{transition:all 0.3s;opacity:0.15}
+.sg-shape.active{opacity:1;filter:drop-shadow(0 0 6px rgba(237,27,118,0.6))}
+.sg-circle{width:16px;height:16px;border:2px solid var(--sg-pink);border-radius:50%}
+.sg-triangle{width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:16px solid var(--sg-pink)}
+.sg-square-shape{width:14px;height:14px;border:2px solid var(--sg-pink)}
+.sg-pct{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--sg-pink);letter-spacing:1px;margin-top:8px;opacity:0.5}
+
+/* INTRO */
+#intro{position:fixed;inset:0;z-index:10000;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity 0.6s,visibility 0s 0.6s}
+#intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.nf-logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,11vw,110px);color:var(--nf-red);letter-spacing:clamp(2px,0.8vw,6px);text-shadow:0 0 60px rgba(229,9,20,0.6),0 4px 30px rgba(0,0,0,0.9);text-align:center;padding:0 16px;opacity:0;animation:nf-zoom 1.6s 0.2s ease-out forwards}
+@keyframes nf-zoom{0%{transform:scale(2);opacity:0;filter:blur(12px)}50%{transform:scale(1);opacity:1;filter:blur(0)}100%{transform:scale(1);opacity:1}}
+.nf-sub-name{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.5vw,13px);color:var(--nf-gray);letter-spacing:4px;margin-top:14px;opacity:0;animation:fade-in 0.5s 0.8s forwards}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes slide-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:998;padding:14px clamp(14px,4vw,40px);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(0,0,0,0.92),transparent);opacity:0;transition:opacity 0.5s}
+#nav.visible{opacity:1}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,4vw,28px);color:var(--nf-red);letter-spacing:3px}
+.nav-links{display:flex;gap:clamp(10px,2.2vw,26px);align-items:center;flex-wrap:wrap}
+.nav-link{font-family:'DM Sans',sans-serif;font-weight:500;font-size:clamp(10px,1.4vw,14px);color:var(--nf-light);cursor:pointer;opacity:0.7;transition:all 0.3s;background:none;border:none;padding:0}
+.nav-link:hover,.nav-link:active{color:var(--nf-red);opacity:1}
+
+/* HERO */
+#hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding:80px clamp(16px,5vw,80px) 40px;position:relative;overflow:hidden}
+.hero-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 120% 80% at 60% 50%,rgba(229,9,20,0.04),transparent 70%),linear-gradient(180deg,rgba(0,0,0,0.3),transparent 30%,transparent 70%,var(--nf-dark))}
+.hero-shapes{position:absolute;right:3%;top:50%;transform:translateY(-50%);opacity:0.05;pointer-events:none}
+.hero-shapes .circle{width:clamp(100px,22vw,260px);height:clamp(100px,22vw,260px);border:3px solid var(--sg-pink);border-radius:50%;position:absolute;top:-130px;left:0}
+.hero-shapes .triangle{width:0;height:0;border-left:clamp(45px,9vw,110px) solid transparent;border-right:clamp(45px,9vw,110px) solid transparent;border-bottom:clamp(80px,16vw,190px) solid var(--sg-pink);position:absolute;top:-90px;left:clamp(80px,18vw,270px)}
+.hero-shapes .square{width:clamp(80px,15vw,180px);height:clamp(80px,15vw,180px);border:3px solid var(--sg-pink);position:absolute;top:40px;left:clamp(50px,11vw,140px)}
+.hero-content{position:relative;z-index:2;max-width:750px;width:100%}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.6vw,13px);color:var(--sg-teal);letter-spacing:3px;margin-bottom:14px;opacity:0;animation:slide-up 0.6s 0.3s forwards}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,10vw,110px);line-height:0.95;color:var(--nf-white);letter-spacing:2px;opacity:0;animation:slide-up 0.8s 0.5s forwards}
+.hero-name .red{color:var(--nf-red)}
+#typing-role{display:block;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:clamp(14px,2.8vw,26px);color:var(--nf-red);letter-spacing:2px;min-height:28px;border-right:2px solid var(--nf-red);width:fit-content;animation:blink-cursor 0.7s infinite}
+@keyframes blink-cursor{0%,100%{border-color:var(--nf-red)}50%{border-color:transparent}}
+@keyframes notice-pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.hero-summary{font-size:clamp(12px,1.7vw,16px);color:var(--nf-gray);line-height:1.7;margin-top:18px;max-width:600px;opacity:0;animation:fade-in 0.6s 1.2s forwards}
+.hero-stats{display:flex;gap:clamp(18px,3.5vw,45px);margin-top:24px;flex-wrap:wrap;opacity:0;animation:fade-in 0.6s 1.5s forwards}
+.hero-stat .num{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,4.5vw,42px);color:var(--nf-white);line-height:1}
+.hero-stat .label{font-family:'JetBrains Mono',monospace;font-size:clamp(7px,1.1vw,10px);color:var(--nf-gray);letter-spacing:2px;margin-top:2px}
+.hero-cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;opacity:0;animation:fade-in 0.6s 1.7s forwards}
+.btn-red,.btn-ghost{font-family:'DM Sans',sans-serif;font-weight:600;font-size:clamp(11px,1.4vw,14px);padding:clamp(10px,1.4vw,14px) clamp(18px,2.8vw,32px);border-radius:4px;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;border:none;-webkit-appearance:none}
+.btn-red{background:var(--nf-red);color:#fff}
+.btn-red:hover{background:var(--nf-red-dark);transform:translateY(-2px);box-shadow:0 8px 25px rgba(229,9,20,0.3)}
+.btn-red:active{transform:scale(0.97)}
+.btn-ghost{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)}
+.btn-ghost:hover{background:rgba(255,255,255,0.15);transform:translateY(-2px)}
+
+/* SECTIONS */
+.section{padding:clamp(45px,7vw,80px) clamp(14px,5vw,80px);position:relative}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:clamp(8px,1.2vw,11px);color:var(--sg-teal);letter-spacing:4px;margin-bottom:5px;text-transform:uppercase}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,5vw,52px);color:var(--nf-white);letter-spacing:2px;margin-bottom:28px}
+.section-title .red{color:var(--nf-red)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:12px}
+.skill-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:6px;padding:clamp(14px,2vw,22px);transition:all 0.4s;position:relative;overflow:hidden}
+.skill-card:hover{border-color:rgba(229,9,20,0.3);transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,0.4)}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--nf-red),var(--sg-pink));transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+.skill-card:hover::before{transform:scaleX(1)}
+.skill-card .cat{font-family:'Bebas Neue',sans-serif;font-size:clamp(13px,1.7vw,16px);color:var(--nf-red);letter-spacing:2px;margin-bottom:8px}
+.skill-card .tags{display:flex;flex-wrap:wrap;gap:4px}
+.skill-card .tags span{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.2vw,12px);color:var(--nf-light);background:rgba(255,255,255,0.06);padding:3px 9px;border-radius:3px;border:1px solid rgba(255,255,255,0.05);transition:all 0.3s}
+.skill-card .tags span:hover{border-color:var(--nf-red);background:rgba(229,9,20,0.08);color:#fff}
+.exp-timeline{max-width:900px}
+.exp-item{padding:20px 0 20px clamp(18px,3vw,35px);border-left:2px solid var(--card-border);position:relative;transition:all 0.3s}
+.exp-item:hover{border-left-color:var(--nf-red)}
+.exp-item::before{content:'';position:absolute;left:-7px;top:26px;width:12px;height:12px;border-radius:50%;background:var(--nf-dark);border:2px solid var(--card-border);transition:all 0.3s}
+.exp-item:hover::before{border-color:var(--nf-red);background:var(--nf-red);box-shadow:0 0 12px rgba(229,9,20,0.4)}
+.exp-item .role{font-family:'Bebas Neue',sans-serif;font-size:clamp(17px,2.3vw,22px);color:var(--nf-white);letter-spacing:1px}
+.exp-item .company{font-weight:600;font-size:clamp(12px,1.5vw,15px);color:var(--nf-red);margin-top:2px}
+.exp-item .meta{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.1vw,11px);color:var(--nf-gray);letter-spacing:1px;margin-top:3px}
+.exp-item .details{margin-top:8px}
+.exp-item .details li{list-style:none;position:relative;padding-left:15px;font-size:clamp(11px,1.4vw,14px);color:rgba(255,255,255,0.6);line-height:1.8}
+.exp-item .details li::before{content:'▹';position:absolute;left:0;color:var(--nf-red)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr));gap:12px}
+.project-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:6px;padding:clamp(16px,2.3vw,26px);transition:all 0.4s;overflow:hidden}
+.project-card:hover{border-color:rgba(229,9,20,0.3);transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,0.4)}
+.project-card .status{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sg-teal);letter-spacing:2px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.project-card .status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sg-teal)}
+.project-card h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(15px,1.9vw,20px);color:var(--nf-white);letter-spacing:1px;margin-bottom:4px}
+.project-card .tech{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.1vw,11px);color:var(--nf-red);margin-bottom:8px}
+.project-card p{font-size:clamp(11px,1.3vw,14px);color:rgba(255,255,255,0.55);line-height:1.7}
+.game-wrapper{max-width:800px;margin:0 auto;position:relative}
+#game-canvas{width:100%;aspect-ratio:2/1;background:#080d08;border:1px solid var(--card-border);border-radius:6px;display:block;touch-action:none;-webkit-user-select:none;user-select:none}
+.game-hud-bar{display:flex;justify-content:space-between;padding:6px 2px;font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.3vw,12px)}
+.game-hud-bar .g-val{color:var(--sg-pink)}.game-hud-bar .g-green{color:var(--sg-teal)}.game-hud-bar .g-label{color:var(--nf-gray)}
+.game-overlay{position:absolute;inset:0;top:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(8,8,8,0.92);border-radius:6px;z-index:5;transition:opacity 0.4s;padding:16px}
+.game-overlay.hidden{opacity:0;pointer-events:none}
+.game-overlay h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,4vw,30px);color:var(--sg-pink);letter-spacing:4px;margin-bottom:6px}
+.game-overlay p{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.2vw,12px);color:var(--nf-gray);margin-bottom:16px;letter-spacing:1px;text-align:center;line-height:1.7}
+.edu-cards{max-width:900px}
+.edu-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:6px;padding:clamp(14px,2.3vw,22px);margin-bottom:10px;transition:all 0.3s}
+.edu-card:hover{border-color:rgba(229,9,20,0.2)}
+.edu-card .degree{font-family:'Bebas Neue',sans-serif;font-size:clamp(15px,2vw,20px);color:var(--nf-white);letter-spacing:1px}
+.edu-card .school{font-size:clamp(12px,1.4vw,14px);color:var(--nf-red);margin-top:2px}
+.edu-card .period{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.1vw,11px);color:var(--nf-gray);margin-top:3px}
+.edu-card .honor{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.1vw,11px);color:var(--sg-teal);margin-top:3px}
+.certs{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.cert{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.1vw,11px);color:var(--sg-yellow);padding:6px 13px;border:1px solid rgba(255,217,61,0.2);border-radius:4px;background:rgba(255,217,61,0.04);transition:all 0.3s}
+.cert:hover{border-color:rgba(255,217,61,0.5);background:rgba(255,217,61,0.08)}
+.contact-row{display:flex;flex-wrap:wrap;gap:10px}
+.contact-item{flex:1;min-width:min(100%,190px);background:var(--card-bg);border:1px solid var(--card-border);border-radius:6px;padding:clamp(14px,2.3vw,22px);text-align:center;text-decoration:none;display:block;transition:all 0.3s}
+.contact-item:hover{border-color:var(--nf-red);transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,0.3)}
+.contact-item .c-icon{font-size:20px;margin-bottom:5px}
+.contact-item .c-label{font-family:'Bebas Neue',sans-serif;font-size:clamp(12px,1.5vw,15px);color:var(--nf-red);letter-spacing:2px;margin-bottom:2px}
+.contact-item .c-val{font-family:'JetBrains Mono',monospace;font-size:clamp(9px,1.1vw,12px);color:var(--nf-gray);word-break:break-all}
+#footer{text-align:center;padding:28px 14px;border-top:1px solid var(--card-border)}
+#footer p{font-family:'JetBrains Mono',monospace;font-size:clamp(8px,1vw,11px);color:rgba(255,255,255,0.2);letter-spacing:2px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.6s,transform 0.6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:600px){.hero-shapes{display:none}.contact-row{flex-direction:column}.contact-item{min-width:100%}#scroll-tracker{right:8px}}
+@media(max-width:380px){.nav-links{display:none}}
+</style>
+</head>
+<body>
+<div id="intro"><div class="nf-logo">VARUN PYARASANI</div><div class="nf-sub-name">P O R T F O L I O</div></div>
+<div id="scroll-tracker"><div class="sg-shapes"><div class="sg-shape sg-circle" id="sg-s1"></div><div class="sg-shape sg-triangle" id="sg-s2"></div><div class="sg-shape sg-square-shape" id="sg-s3"></div></div><div class="track-line"><div class="track-fill" id="track-fill"></div><div class="track-marker" id="track-marker"></div></div><div class="sg-pct" id="scroll-pct">0%</div></div>
+<nav id="nav"><div class="nav-brand">VP</div><div class="nav-links"><button class="nav-link" data-target="skills">Skills</button><button class="nav-link" data-target="experience">Experience</button><button class="nav-link" data-target="projects">Projects</button><button class="nav-link" data-target="game">Game</button><button class="nav-link" data-target="education">Education</button><button class="nav-link" data-target="contact">Contact</button></div></nav>
+<section id="hero"><div class="hero-vignette"></div><div class="hero-shapes"><div class="circle"></div><div class="triangle"></div><div class="square"></div></div><div class="hero-content"><div class="hero-tag">WELCOME TO MY PORTFOLIO</div><h1 class="hero-name">VARUN<br><span class="red">PYARASANI</span></h1><span id="typing-role"></span><p class="hero-summary">Versatile software engineer with 4+ years of experience designing, building, testing, and maintaining large-scale distributed systems, ML infrastructure, and storage solutions. Demonstrated leadership delivering scalable web applications and platforms across healthcare, finance, and life sciences — improving system performance by up to 87%.</p><div class="hero-stats"><div class="hero-stat"><div class="num">4+</div><div class="label">YEARS ACTIVE</div></div><div class="hero-stat"><div class="num">87%</div><div class="label">PERF. BOOST</div></div><div class="hero-stat"><div class="num">1M+</div><div class="label">SIGNALS/DAY</div></div><div class="hero-stat"><div class="num">99.95%</div><div class="label">UPTIME</div></div></div><div class="hero-cta"><button class="btn-red" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">▶ Get In Touch</button><button class="btn-ghost" onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'})">↓ View Experience</button></div></div></section>
+<section id="skills" class="section"><div class="section-label reveal">TECHNICAL ARSENAL</div><div class="section-title reveal">Technical <span class="red">Skills</span></div><div class="skills-grid"><div class="skill-card reveal"><div class="cat">LANGUAGES</div><div class="tags"><span>Python</span><span>SQL</span><span>Java</span><span>JavaScript</span><span>TypeScript</span><span>Go</span><span>Bash</span><span>R</span></div></div><div class="skill-card reveal"><div class="cat">FRAMEWORKS</div><div class="tags"><span>React.js</span><span>Node.js</span><span>CSS</span><span>REST APIs</span><span>ETL Pipelines</span><span>PySpark</span><span>Apache Airflow</span></div></div><div class="skill-card reveal"><div class="cat">CLOUD & INFRASTRUCTURE</div><div class="tags"><span>AWS S3</span><span>Glue</span><span>Redshift</span><span>Athena</span><span>Kinesis</span><span>Lambda</span><span>Step Functions</span><span>IAM</span><span>Docker</span><span>Terraform</span></div></div><div class="skill-card reveal"><div class="cat">ML & AI</div><div class="tags"><span>ML Infrastructure</span><span>NLP</span><span>Information Retrieval</span><span>Generative AI</span><span>Predictive Analytics</span></div></div><div class="skill-card reveal"><div class="cat">DATABASES</div><div class="tags"><span>PostgreSQL</span><span>MySQL</span><span>MongoDB</span><span>DynamoDB</span><span>Redshift</span></div></div><div class="skill-card reveal"><div class="cat">CORE DISCIPLINES</div><div class="tags"><span>Large-Scale Systems</span><span>Distributed Computing</span><span>Scalability</span><span>Security</span><span>Storage Solutions</span><span>Unix/Linux</span></div></div></div></section>
+<section id="experience" class="section"><div class="section-label reveal">DEPLOYMENT HISTORY</div><div class="section-title reveal">Professional <span class="red">Experience</span></div><div class="exp-timeline"><div class="exp-item reveal"><div class="role">SOFTWARE DATA ENGINEER</div><div class="company">Northwestern Mutual</div><div class="meta">Dallas, TX — Jan 2025 – Present</div><ul class="details"><li>Designed and scaled a distributed data software system processing 600K+ monthly records using Python, SQL, and Athena, improving performance by 75% and eliminating a 4-day reporting lag across sales and finance teams.</li><li>Built large-scale self-service software for web application analytics using Python, Node.js, REST APIs, and Athena, enabling teams to run independent deep-dive analyses and cutting ad-hoc engineering turnaround by 60%.</li><li>Refactored ETL architecture and data schema across 3 upstream systems using Python and SQL, eliminating an 18% forecasting error and improving cross-team data consistency and storage solutions at scale.</li><li>Architected, tested, and deployed automated quality validation software into the ingestion layer, enforcing security controls and improving downstream data reliability by 34% across all business-facing production dashboards.</li></ul></div><div class="exp-item reveal"><div class="role">SOFTWARE DATA ENGINEER</div><div class="company">Thermo Fisher Scientific</div><div class="meta">Houston, TX — Mar 2024 – Dec 2024</div><ul class="details"><li>Developed and deployed large-scale ETL ingestion software using Python, AWS Glue, Node.js, and REST APIs processing 250K+ monthly lab records, reducing data availability from 48 hours to 6 hours end-to-end.</li><li>Designed and built web application dashboards using CSS, JavaScript, and Power BI on a restructured Redshift data layer, eliminating a 2-day reporting cycle and enabling self-service metric monitoring for lab managers.</li></ul></div><div class="exp-item reveal"><div class="role">JUNIOR SOFTWARE ENGINEER</div><div class="company">Cotiviti</div><div class="meta">Hyderabad, India — Mar 2021 – Jul 2023</div><ul class="details"><li>Developed and tested SQL-based software systems and web application dashboards processing 1.2M+ monthly healthcare claims, surfacing information retrieval insights that directed $2M+ in spend reallocation.</li><li>Led redesign of core data models and automated report generation software using SQL and Python, managing priorities and deliverables to cut report delivery from 3 days to same-day for leadership weekly reviews.</li></ul></div></div></section>
+<section id="projects" class="section"><div class="section-label reveal">KEY INITIATIVES</div><div class="section-title reveal">Featured <span class="red">Projects</span></div><div class="projects-grid"><div class="project-card reveal"><div class="status">COMPLETED</div><h3>Quantitative Research Platform</h3><div class="tech">Python · AWS Step Functions · Kinesis · IAM</div><p>Re-architected a failing Airflow scheduler into a scalable distributed system using AWS Step Functions and Kinesis, processing 1M+ daily signals at 99.95% uptime with IAM security and role-based access control.</p></div><div class="project-card reveal"><div class="status">COMPLETED</div><h3>B2B Sales Intelligence Platform</h3><div class="tech">Python · Node.js · React.js · SQL · Redshift</div><p>Designed, developed, and deployed a full-stack web application using Python, Node.js, React.js, SQL, and Redshift, with automated data quality validation eliminating 3 weekly manual verification steps at scale.</p></div><div class="project-card reveal"><div class="status">COMPLETED</div><h3>NLP Insights Engine</h3><div class="tech">Python · spaCy · REST APIs · JavaScript</div><p>Built a large-scale NLP and information retrieval pipeline using Python, spaCy, and REST APIs to extract and classify entities from unstructured data, reducing manual review effort by 40% and improving search accuracy.</p></div></div></section>
+<section id="game" class="section"><div class="section-label reveal">INTERACTIVE CHALLENGE</div><div class="section-title reveal">Red Light, <span class="red">Green Light</span></div><div style="text-align:center;margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:clamp(10px,1.3vw,13px);color:#ED1B76;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:8px;animation:notice-pulse 2s ease-in-out infinite" class="reveal"><svg viewBox="0 0 24 24" width="18" height="18" fill="#ED1B76" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/><path d="M19 12c0 2.97-1.65 5.54-4 6.71V5.29c2.35 1.17 4 3.74 4 6.71z" opacity=".5"/></svg>Turn up your volume for the full experience</div><div class="game-wrapper reveal"><div class="game-hud-bar"><div><span class="g-label">DIST: </span><span class="g-val" id="g-dist">0%</span></div><div><span class="g-label">STATUS: </span><span class="g-green" id="g-status">READY</span></div><div><span class="g-label">ALIVE: </span><span class="g-val" id="g-surv">10</span></div></div><canvas id="game-canvas"></canvas><div class="game-overlay" id="game-overlay"><h3>RED LIGHT, GREEN LIGHT</h3><p>Tap &amp; hold to move during GREEN LIGHT.<br>Release when it turns RED LIGHT.<br>If caught moving during red — eliminated!</p><button class="btn-red" id="game-start">▶ START GAME</button></div></div></section>
+<section id="education" class="section"><div class="section-label reveal">ACADEMIC BACKGROUND</div><div class="section-title reveal"><span class="red">Education</span></div><div class="edu-cards"><div class="edu-card reveal"><div class="degree">M.S. Business Analytics & Artificial Intelligence</div><div class="school">University of Texas at Dallas</div><div class="period">Aug 2022 — May 2024</div><div class="honor">★ Dean's Excellence Scholar</div></div><div class="edu-card reveal"><div class="degree">B.E. Electrical & Electronics Engineering</div><div class="school">Chaitanya Bharati Institute of Technology</div><div class="period">Jun 2017 — May 2021</div></div></div><div class="certs reveal"><div class="cert">☆ AWS Cloud Practitioner</div><div class="cert">☆ Azure Fundamentals</div><div class="cert">☆ Power BI Data Analyst</div><div class="cert">☆ CISM</div></div></section>
+<section id="contact" class="section"><div class="section-label reveal">LET'S CONNECT</div><div class="section-title reveal">Contact <span class="red">Me</span></div><div class="contact-row"><a href="/cdn-cgi/l/email-protection#1c6a7d6e69726c657d6e7d6f7d72752e255c7b717d7570327f7371" class="contact-item reveal"><div class="c-icon">✉</div><div class="c-label">EMAIL</div><div class="c-val"><span class="__cf_email__" data-cfemail="493f283b3c273930283b283a2827207b70092e24282025672a2624">[email&#160;protected]</span></div></a><a href="tel:9453937637" class="contact-item reveal"><div class="c-icon">☎</div><div class="c-label">PHONE</div><div class="c-val">945-393-7637</div></a><a href="https://www.linkedin.com/in/pyarasani9/" target="_blank" rel="noopener" class="contact-item reveal"><div class="c-icon">◆</div><div class="c-label">LINKEDIN</div><div class="c-val">linkedin.com/in/pyarasani9</div></a></div></section>
+<div id="footer"><p>© 2026 VARUN PYARASANI — ALL RIGHTS RESERVED</p></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// INTRO — auto fade after 2.2s
+setTimeout(()=>{document.getElementById('intro').classList.add('hidden');document.getElementById('nav').classList.add('visible')},2200);
+
+// NAV
+document.querySelectorAll('.nav-link').forEach(b=>{b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();const t=document.getElementById(this.dataset.target);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+
+// TYPING
+(function(){const roles=['Software Engineer','Data Engineer','Data Scientist'],el=document.getElementById('typing-role');let ri=0,ci=0,del=false,p=0;function t(){if(p>0){p--;requestAnimationFrame(t);return}const r=roles[ri];if(!del){ci++;el.textContent=r.substring(0,ci);if(ci===r.length){del=true;p=100}else p=4}else{ci--;el.textContent=r.substring(0,ci);if(ci===0){del=false;ri=(ri+1)%roles.length;p=25}else p=2}requestAnimationFrame(t)}setTimeout(t,2400)})();
+
+// REVEAL
+document.querySelectorAll('.reveal').forEach(el=>{new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08,rootMargin:'0px 0px -30px 0px'}).observe(el)});
+
+// SCROLL TRACKER
+(function(){const f=document.getElementById('track-fill'),m=document.getElementById('track-marker'),p=document.getElementById('scroll-pct'),s1=document.getElementById('sg-s1'),s2=document.getElementById('sg-s2'),s3=document.getElementById('sg-s3');function u(){const sy=window.scrollY||0,mx=document.body.scrollHeight-window.innerHeight,pc=mx>0?Math.min(sy/mx,1):0,pr=Math.round(pc*100);f.style.height=pr+'%';m.style.top=pr+'%';p.textContent=pr+'%';s1.classList.toggle('active',pc>0.02);s2.classList.toggle('active',pc>0.33);s3.classList.toggle('active',pc>0.66);requestAnimationFrame(u)}u()})();
+
+// ================================================================
+// RED LIGHT GREEN LIGHT — Realistic characters, real eliminations
+// ================================================================
+(function(){
+const cv=document.getElementById('game-canvas'),ctx=cv.getContext('2d');
+const overlay=document.getElementById('game-overlay'),startBtn=document.getElementById('game-start');
+const distEl=document.getElementById('g-dist'),statusEl=document.getElementById('g-status'),survEl=document.getElementById('g-surv');
+let W,H,S; // S = scale factor
+function resize(){const r=cv.getBoundingClientRect();const d=Math.min(window.devicePixelRatio||1,2);W=cv.width=Math.round(r.width*d);H=cv.height=Math.round(r.height*d);S=W/800;}
+
+const SKIN=['#f5d0a9','#d4a574','#c68642','#8d5524','#6b3e26','#f0c8a0','#e8b88a'];
+const HAIR=['#1a1008','#3b2314','#5a3a1a','#8b6914','#2a1a0a','#0a0a0a','#4a3020','#704020'];
+const SUIT='#00917a';
+const USER_SUIT='#00B4A0';
+
+let running=false,holding=false,greenLight=true,lightTimer=0,lightDuration=0;
+let distance=0,eliminated=false,won=false,survivors=10;
+let npcs=[],particles=[],bloodSplats=[],gf=0,caught=false;
+
+class NPC{
+  constructor(i,total){
+    this.y=H*0.15+((i+1)/(total+1))*(H*0.7);
+    this.speed=0.08+Math.random()*0.22;
+    this.alive=true;this.progress=0;this.frame=Math.random()*100|0;
+    this.moving=false;this.delay=Math.floor(Math.random()*15);this.stopTick=0;
+    this.skin=SKIN[Math.floor(Math.random()*SKIN.length)];
+    this.hair=HAIR[Math.floor(Math.random()*HAIR.length)];
+    this.num=String(Math.floor(Math.random()*456)+1).padStart(3,'0');
+    this.height=0.8+Math.random()*0.4; // size variation
+    this.deathAngle=0;this.deathFall=0;this.dying=false;
+  }
+}
+
+function initNPCs(){npcs=[];bloodSplats=[];for(let i=0;i<9;i++)npcs.push(new NPC(i,9));}
+
+// Speech Synthesis voice for Green Light / Red Light
+const Voice={
+  speak(text){
+    if(!('speechSynthesis' in window))return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.rate=0.8;u.pitch=0.5;u.volume=1;
+    const v=speechSynthesis.getVoices();
+    const pick=v.find(x=>/female|samantha|karen|zira|google.*us/i.test(x.name))||v.find(x=>/en/i.test(x.lang))||v[0];
+    if(pick)u.voice=pick;
+    speechSynthesis.speak(u);
+  }
+};
+if('speechSynthesis' in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
+
+function switchLight(){
+  greenLight=!greenLight;
+  if(!greenLight){
+    Voice.speak('Red Light');
+    statusEl.textContent='RED LIGHT';statusEl.style.color='#E50914';
+    // Very quick snap check — 250ms reaction window
+    setTimeout(()=>{
+      if(!running||eliminated||won)return;
+      npcs.forEach(n=>{
+        // 70% kill rate — brutal
+        if(n.alive&&n.moving&&Math.random()<0.7){
+          n.alive=false;n.dying=true;n.deathAngle=0;n.deathFall=0;
+          survivors--;survEl.textContent=survivors;
+          const rx=28*S+n.progress*(W*0.64);
+          bloodSplats.push({x:rx,y:n.y+14*S*n.height,r:8+Math.random()*6,a:0.7});
+          for(let p=0;p<14;p++)particles.push({
+            x:rx,y:n.y,vx:(Math.random()-0.5)*4,vy:-Math.random()*3-1,
+            life:1,size:1.5+Math.random()*2
+          });
+        }
+      });
+      if(holding&&!eliminated&&!won)caught=true;
+    },250);
+  }else{
+    Voice.speak('Green Light');
+    statusEl.textContent='GREEN LIGHT';statusEl.style.color='#00B4A0';
+  }
+  // Shorter green windows, fast red lights — very hard
+  lightDuration=greenLight?(1000+Math.random()*1500):(800+Math.random()*1200);
+  lightTimer=performance.now();
+}
+
+function drawPerson(x,y,frame,moving,alive,dying,deathAngle,skin,hair,num,h,isUser,suit){
+  const sc=S*h;
+  const legSwing=moving?Math.sin(frame*0.2)*10*sc:0;
+  const armSwing=moving?Math.sin(frame*0.2)*12*sc:0;
+  const bounce=moving?Math.abs(Math.sin(frame*0.2))*2*sc:0;
+
+  ctx.save();
+  ctx.translate(x,y-bounce);
+
+  // Death animation — fall sideways
+  if(dying||(!alive&&deathAngle<Math.PI/2)){
+    ctx.rotate(deathAngle);
+    ctx.globalAlpha=Math.max(0.3,1-deathAngle/(Math.PI/2));
+  }
+  if(!alive&&!dying){ctx.restore();return;} // fully dead, drawn as splat only
+
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,0.15)';
+  ctx.beginPath();ctx.ellipse(0,20*sc,6*sc,2*sc,0,0,Math.PI*2);ctx.fill();
+
+  // Legs
+  ctx.strokeStyle=suit;ctx.lineWidth=3*sc;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(-3*sc,6*sc);ctx.lineTo(-3*sc-legSwing*0.5,18*sc);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(3*sc,6*sc);ctx.lineTo(3*sc+legSwing*0.5,18*sc);ctx.stroke();
+  // Shoes
+  ctx.fillStyle='#222';
+  ctx.beginPath();ctx.ellipse(-3*sc-legSwing*0.5,19*sc,4*sc,1.8*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(3*sc+legSwing*0.5,19*sc,4*sc,1.8*sc,0,0,Math.PI*2);ctx.fill();
+
+  // Body (tracksuit top)
+  ctx.fillStyle=suit;
+  ctx.beginPath();
+  ctx.moveTo(-7*sc,-10*sc);ctx.lineTo(7*sc,-10*sc);
+  ctx.lineTo(6*sc,7*sc);ctx.lineTo(-6*sc,7*sc);ctx.closePath();ctx.fill();
+  // White stripe down sides
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=0.8*sc;
+  ctx.beginPath();ctx.moveTo(-7*sc,-10*sc);ctx.lineTo(-6*sc,7*sc);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(7*sc,-10*sc);ctx.lineTo(6*sc,7*sc);ctx.stroke();
+  // Number on chest
+  ctx.fillStyle='#fff';ctx.font=`bold ${5*sc}px "Bebas Neue",sans-serif`;
+  ctx.textAlign='center';ctx.fillText(num,0,1*sc);
+
+  // Arms
+  ctx.strokeStyle=suit;ctx.lineWidth=2.8*sc;
+  ctx.beginPath();ctx.moveTo(-7*sc,-8*sc);ctx.lineTo(-11*sc+armSwing*0.3,-1*sc);ctx.lineTo(-10*sc+armSwing*0.5,6*sc);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(7*sc,-8*sc);ctx.lineTo(11*sc-armSwing*0.3,-1*sc);ctx.lineTo(10*sc-armSwing*0.5,6*sc);ctx.stroke();
+  // Hands
+  ctx.fillStyle=skin;
+  ctx.beginPath();ctx.arc(-10*sc+armSwing*0.5,7*sc,2*sc,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(10*sc-armSwing*0.5,7*sc,2*sc,0,Math.PI*2);ctx.fill();
+
+  // Neck
+  ctx.fillStyle=skin;ctx.fillRect(-2*sc,-14*sc,4*sc,5*sc);
+
+  // Head
+  ctx.fillStyle=skin;
+  ctx.beginPath();ctx.ellipse(0,-18*sc,6*sc,7*sc,0,0,Math.PI*2);ctx.fill();
+
+  // Hair
+  ctx.fillStyle=hair;
+  ctx.beginPath();ctx.ellipse(0,-22*sc,6.5*sc,5*sc,0,Math.PI,0);ctx.fill();
+  ctx.fillRect(-6.5*sc,-22*sc,13*sc,3*sc);
+
+  // Ears
+  ctx.fillStyle=skin;
+  ctx.beginPath();ctx.ellipse(-6*sc,-17*sc,1.5*sc,2.5*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(6*sc,-17*sc,1.5*sc,2.5*sc,0,0,Math.PI*2);ctx.fill();
+
+  // Eyes
+  ctx.fillStyle='#fff';
+  ctx.beginPath();ctx.ellipse(-2.5*sc,-18*sc,1.8*sc,1.3*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(2.5*sc,-18*sc,1.8*sc,1.3*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#1a1008';
+  ctx.beginPath();ctx.arc(-2.5*sc,-18*sc,0.9*sc,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(2.5*sc,-18*sc,0.9*sc,0,Math.PI*2);ctx.fill();
+
+  // Mouth
+  ctx.strokeStyle=alive?'#8a5a3a':'#555';ctx.lineWidth=0.7*sc;
+  ctx.beginPath();ctx.arc(0,-14*sc,2*sc,0.15,Math.PI-0.15);ctx.stroke();
+
+  // User highlight
+  if(isUser){
+    ctx.strokeStyle='rgba(0,212,255,0.4)';ctx.lineWidth=1.2*S;
+    ctx.setLineDash([3*S,3*S]);
+    ctx.beginPath();ctx.arc(0,0,24*sc,0,Math.PI*2);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(0,212,255,0.8)';ctx.font=`bold ${4*S}px "JetBrains Mono",monospace`;
+    ctx.fillText('YOU',0,-28*sc);
+  }
+
+  ctx.restore();
+}
+
+function drawDoll(){
+  const dx=W-50*S,dy=H*0.12,sc=S*1.2;
+  ctx.save();ctx.translate(dx,dy);
+  // Dress
+  ctx.fillStyle='#ED1B76';
+  ctx.beginPath();ctx.moveTo(0,12*sc);ctx.lineTo(-18*sc,52*sc);ctx.lineTo(18*sc,52*sc);ctx.closePath();ctx.fill();
+  // Collar
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(-4*sc,12*sc);ctx.lineTo(0,16*sc);ctx.lineTo(4*sc,12*sc);ctx.closePath();ctx.fill();
+  // Arms
+  ctx.strokeStyle='#ffcba4';ctx.lineWidth=3*sc;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(-12*sc,20*sc);ctx.lineTo(-22*sc,38*sc);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(12*sc,20*sc);ctx.lineTo(22*sc,38*sc);ctx.stroke();
+  // Head
+  ctx.fillStyle='#ffcba4';ctx.beginPath();ctx.arc(0,0,15*sc,0,Math.PI*2);ctx.fill();
+  // Hair
+  ctx.fillStyle='#1a1008';ctx.beginPath();ctx.arc(0,-4*sc,16*sc,Math.PI,0);ctx.fill();
+  // Pigtails with buns
+  [-1,1].forEach(dir=>{
+    ctx.fillStyle='#1a1008';
+    ctx.beginPath();ctx.arc(dir*20*sc,-2*sc,6*sc,0,Math.PI*2);ctx.fill();
+    ctx.fillRect(dir*14*sc,-6*sc,dir*6*sc,4*sc);
+    ctx.fillStyle='#ED1B76';
+    ctx.beginPath();ctx.arc(dir*14*sc,-4*sc,3*sc,0,Math.PI*2);ctx.fill();
+  });
+  // Face
+  if(!greenLight){
+    // Facing forward — creepy face
+    ctx.fillStyle='#1a1008';
+    ctx.beginPath();ctx.arc(-5*sc,-1*sc,2.5*sc,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(5*sc,-1*sc,2.5*sc,0,Math.PI*2);ctx.fill();
+    // Red glow pupils
+    ctx.fillStyle='#E50914';
+    ctx.beginPath();ctx.arc(-5*sc,-1*sc,1.2*sc,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(5*sc,-1*sc,1.2*sc,0,Math.PI*2);ctx.fill();
+    // Creepy smile
+    ctx.strokeStyle='#444';ctx.lineWidth=1*sc;
+    ctx.beginPath();ctx.arc(0,5*sc,5*sc,0.1,Math.PI-0.1);ctx.stroke();
+    // Eye glow effect
+    ctx.fillStyle='rgba(229,9,20,0.15)';
+    ctx.beginPath();ctx.arc(-5*sc,-1*sc,8*sc,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(5*sc,-1*sc,8*sc,0,Math.PI*2);ctx.fill();
+  }
+  // Legs
+  ctx.strokeStyle='#ffcba4';ctx.lineWidth=3.5*sc;
+  ctx.beginPath();ctx.moveTo(-6*sc,52*sc);ctx.lineTo(-6*sc,68*sc);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(6*sc,52*sc);ctx.lineTo(6*sc,68*sc);ctx.stroke();
+  // Shoes
+  ctx.fillStyle='#ED1B76';
+  ctx.beginPath();ctx.ellipse(-6*sc,70*sc,5*sc,2*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(6*sc,70*sc,5*sc,2*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+
+function gameLoop(now){
+  if(!running&&particles.length===0)return;
+  gf++;ctx.clearRect(0,0,W,H);
+
+  // Sky
+  const sky=ctx.createLinearGradient(0,0,0,H);
+  sky.addColorStop(0,'#0d0412');sky.addColorStop(0.4,'#08111e');sky.addColorStop(1,'#0a1510');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+
+  // Stars
+  ctx.fillStyle='rgba(255,255,255,0.3)';
+  for(let i=0;i<20;i++){
+    const sx=(i*137.5)%W,sy=(i*97.3)%H*0.4;
+    ctx.fillRect(sx,sy,1,1);
+  }
+
+  // Ground
+  const grd=ctx.createLinearGradient(0,H*0.82,0,H);
+  grd.addColorStop(0,'#1a2e1a');grd.addColorStop(1,'#0d1a0d');
+  ctx.fillStyle=grd;ctx.fillRect(0,H*0.82,W,H*0.18);
+  // Ground texture lines
+  ctx.strokeStyle='rgba(0,180,160,0.06)';ctx.lineWidth=1;
+  for(let i=0;i<5;i++){
+    const gy=H*0.84+i*(H*0.03);
+    ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();
+  }
+
+  // Finish line
+  ctx.strokeStyle='rgba(229,9,20,0.25)';ctx.setLineDash([4*S,4*S]);ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(W*0.76,H*0.05);ctx.lineTo(W*0.76,H*0.82);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(229,9,20,0.12)';ctx.font=`${12*S}px "Bebas Neue",sans-serif`;
+  ctx.textAlign='center';ctx.fillText('FINISH',W*0.76,H*0.07+12*S);
+
+  // Light overlay
+  ctx.fillStyle=greenLight?'rgba(0,180,160,0.02)':'rgba(229,9,20,0.04)';ctx.fillRect(0,0,W,H);
+
+  // Big status watermark
+  ctx.font=`bold ${40*S}px "Bebas Neue",sans-serif`;ctx.textAlign='center';
+  ctx.fillStyle=greenLight?'rgba(0,180,160,0.04)':'rgba(229,9,20,0.04)';
+  ctx.fillText(greenLight?'GREEN LIGHT':'RED LIGHT',W/2,H*0.5);
+
+  // Light switch
+  if(running&&!eliminated&&!won&&now-lightTimer>lightDuration)switchLight();
+
+  // Blood splats on ground (persistent)
+  bloodSplats.forEach(bs=>{
+    ctx.fillStyle=`rgba(180,10,10,${bs.a})`;
+    ctx.beginPath();ctx.ellipse(bs.x,bs.y,bs.r*S,bs.r*S*0.35,0,0,Math.PI*2);ctx.fill();
+  });
+
+  // Draw doll
+  drawDoll();
+
+  // Move user
+  if(holding&&greenLight&&!eliminated&&!won&&running){
+    distance+=0.15;
+    if(distance>=100){distance=100;won=true;
+      setTimeout(()=>{running=false;overlay.classList.remove('hidden');
+        overlay.querySelector('h3').textContent='YOU SURVIVED!';
+        overlay.querySelector('p').textContent='You made it to the finish line! Survivors: '+survivors+'/10';
+        startBtn.textContent='▶ PLAY AGAIN';},500);
+    }
+    distEl.textContent=Math.floor(distance)+'%';
+  }
+
+  // Caught check
+  if(caught&&!eliminated){
+    eliminated=true;running=false;
+    const rx=28*S+(distance/100)*(W*0.64);
+    bloodSplats.push({x:rx,y:H*0.5+14*S,r:10,a:0.8});
+    for(let p=0;p<20;p++)particles.push({x:rx,y:H*0.5,vx:(Math.random()-0.5)*5,vy:-Math.random()*4-1,life:1,size:2+Math.random()*2});
+    setTimeout(()=>{overlay.classList.remove('hidden');
+      overlay.querySelector('h3').textContent='ELIMINATED';
+      overlay.querySelector('p').textContent='Caught moving during RED LIGHT! Distance: '+Math.floor(distance)+'% | Survivors: '+survivors+'/10';
+      startBtn.textContent='▶ TRY AGAIN';},600);
+  }
+
+  // NPCs
+  npcs.forEach(n=>{
+    if(n.alive&&greenLight){n.moving=true;n.progress+=n.speed*0.004;n.frame++;if(n.progress>1)n.progress=1;}
+    else if(n.alive){
+      if(!greenLight&&n.stopTick<n.delay){n.stopTick++;n.frame++;}
+      else{n.moving=false;n.stopTick=0;}
+    }
+    // Death fall animation
+    if(n.dying){
+      n.deathAngle+=0.06;n.deathFall+=0.5;
+      if(n.deathAngle>=Math.PI/2.2){n.dying=false;}
+    }
+    const rx=28*S+n.progress*(W*0.64);
+    if(n.alive||n.dying){
+      drawPerson(rx,n.y+n.deathFall,n.frame,n.moving&&n.alive,n.alive,n.dying,n.deathAngle,n.skin,n.hair,n.num,n.height,false,SUIT);
+    }
+    // Red X over dead bodies
+    if(!n.alive&&!n.dying){
+      ctx.strokeStyle='rgba(229,9,20,0.4)';ctx.lineWidth=2*S;
+      ctx.beginPath();ctx.moveTo(rx-6*S,n.y-6*S);ctx.lineTo(rx+6*S,n.y+6*S);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(rx+6*S,n.y-6*S);ctx.lineTo(rx-6*S,n.y+6*S);ctx.stroke();
+    }
+  });
+
+  // Draw user
+  if(!eliminated){
+    const ux=28*S+(distance/100)*(W*0.64);
+    drawPerson(ux,H*0.5,gf,holding&&greenLight,true,false,0,'#e8b88a','#1a1008','456',1,true,USER_SUIT);
+  }
+
+  // Particles
+  particles=particles.filter(p=>{
+    p.life-=0.018;p.x+=p.vx;p.y+=p.vy;p.vy+=0.08;p.vx*=0.99;
+    ctx.globalAlpha=Math.max(0,p.life);ctx.fillStyle='#c41010';
+    ctx.beginPath();ctx.arc(p.x,p.y,p.size*S*0.5,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=1;
+    return p.life>0;
+  });
+
+  requestAnimationFrame(gameLoop);
+}
+
+cv.addEventListener('mousedown',e=>{e.preventDefault();holding=true});
+cv.addEventListener('mouseup',()=>{holding=false});
+cv.addEventListener('mouseleave',()=>{holding=false});
+cv.addEventListener('touchstart',e=>{e.preventDefault();holding=true},{passive:false});
+cv.addEventListener('touchend',e=>{e.preventDefault();holding=false},{passive:false});
+cv.addEventListener('touchcancel',()=>{holding=false});
+
+startBtn.addEventListener('click',()=>{
+  resize();overlay.classList.add('hidden');
+  running=true;holding=false;greenLight=true;distance=0;eliminated=false;won=false;caught=false;
+  survivors=10;gf=0;particles=[];bloodSplats=[];
+  distEl.textContent='0%';survEl.textContent='10';statusEl.textContent='GREEN LIGHT';statusEl.style.color='#00B4A0';
+  initNPCs();lightDuration=1200+Math.random()*1000;lightTimer=performance.now();
+  // Trigger voice on first user gesture (unlocks on mobile)
+  Voice.speak('Green Light');
+  requestAnimationFrame(gameLoop);
+});
+window.addEventListener('resize',()=>{if(running)resize()});
+window.addEventListener('orientationchange',()=>{setTimeout(()=>{if(running)resize()},250)});
+})();
+</script>
+</body>
+</html>
